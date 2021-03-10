@@ -10,7 +10,7 @@ const homedir = require('os').homedir();
 
 const hostname = '192.168.45.35';
 const port = 3000;
-const client_id = '81TPrQxCzGf5SDs7Ki7sxXTyqMegHozP';
+const client_id = 'INSERT_YOUR_SC_CLIENT_ID_HERE';
 const player = new Cvlc();
 let current_link = "";
 
