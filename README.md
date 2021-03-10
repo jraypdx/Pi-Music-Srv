@@ -1,10 +1,10 @@
 # Pi-Music-Srv
-Another Raspberry Pi music server
+Another Raspberry Pi music server, this time using Node.js!
 
 
 There are already several options out there for streaming music to a Rasberry Pi.  I've tried a few, and the idea behind them is awesome, but they end up being slow and clunky.
 
-My goal with this project is to create a very snappy and leight-weight solution that can stream from local files, SoundCloud, and Spotify.  It should also hopefully feature the ability to queue music and set up a playlist with a combination of all three sources.
+My goal with this project is to create a very snappy solution that can stream from local files, SoundCloud, and Spotify.  It should also hopefully feature the ability to queue music and set up a playlist with a combination of all three sources.
 
 
 ### Current:
@@ -22,6 +22,7 @@ My goal with this project is to create a very snappy and leight-weight solution 
  - SoundCloud streaming
  - Spotify streaming
  - Queue system that can manage moving between all 3 sources
+ - Dope light-weight web app that can be used to control your music from anywhere you can connect to the pi
 
 ### How to get it running on your Raspberry Pi:
  - I'll update this section with the steps to get it going over the next few weeks when it at least has basic local file and SoundCloud functionality
