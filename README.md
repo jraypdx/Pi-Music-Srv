@@ -26,7 +26,9 @@ My goal with this project is to create a very snappy and leight-weight solution 
 
 # Scripts
 A couple of the Python scripts I use:
- - pi-power-button, adds a power button to the Raspberry Pi, as well as blinking a power LED when powering off (based on: https://github.com/Howchoo/pi-power-button )
+ - pi-power-button | Adds a power button to the Raspberry Pi, as well as blinking a power LED when powering off (based on: https://github.com/Howchoo/pi-power-button )
      - Contains scripts to add and remove from boot using init.d
- - pi-power-led, turns on a power LED when the Pi boots up
-     - Add to startup by adding the script in a line to /etc/rc.local with an ampersand (ex. "/home/pi/Documents/pi-power-script.py &")
+ - pi-power-led | Turns on a power LED when the Pi boots up
+     - Can be added to any startup method that allows GPIO access (I use rc.local, see pi-volume-control)
+ - pi-volume-control | Uses two GPIO buttons to raise and lower the alsa mixer volume, as well as muting it when both are pushed, with 4 LEDs to display the volume (mute, 40%+, 70%+, 90%+) (based on: https://gist.github.com/peteristhegreat/3c94963d5b3a876b27accf86d0a7f7c0 )
+     - Add to startup by adding the script in a line to /etc/rc.local with an ampersand (ex. "/home/pi/Documents/pi-power-buttons.py &")
