@@ -27,6 +27,7 @@ My goal with this project is to create a very snappy solution that can stream fr
 
 ### How to get it running on your Raspberry Pi:
  - I'll update this section with the steps to get it going over the next few weeks when it at least has basic local file and SoundCloud functionality
+ - Note:  The cert + key added to the repo are an unsigned dummy pair used for testing, and you will need to click "advanced options" and "proceed" when first visiting the server in a browser
 
 
 # Scripts
