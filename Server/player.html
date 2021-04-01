@@ -11,7 +11,16 @@
 		var currentlyPlayingTotalSeconds = 0;
 		var currentlyPlayingURL = "";
 
-		function openSoundcloudTrackPage() {
+		function spotifyAuth() {
+			fetch('/spotify/auth')
+				.then(response => response.json())
+				.then(data => {
+					if (data.redirect == true) {
+						window.open(data.spotifyURL);
+					}
+				});
+		}
+		function openSongTrackPage() {
 			if (currentlyPlayingURL) {
 				window.open(currentlyPlayingURL);
 			}
@@ -21,20 +30,49 @@
 				.then(response => response.json())
 				.then(data => console.log(data));
 		}
-		function setCurrentlyPlayingInfo() {
-			document.getElementById("CurrentlyPlayingTitle").innerText = "Loading...";
-			fetch('/player/current/info')
-				.then(response => response.json())
-				.then(data => {
-					document.getElementById("CurrentlyPlayingTitle").innerText = data.title;
-					document.getElementById("CurrentlyPlayingArtist").innerText = data.user.username;
-					document.getElementById("CurrentlyPlayingImageUrl").src = data.artwork_url.replace("large.jpg", "t500x500.jpg");
-					document.getElementById("CurrentlyPlayingProgress").innerText = "0:00";
-					currentlyPlayingTotalSeconds = Math.round(data.duration / 1000);
-					document.getElementById("CurrentlyPlayingLength").innerText = new Date(currentlyPlayingTotalSeconds * 1000).toISOString().slice(14, 19);
-					document.getElementById("ProgressBarPosition").style.width = "0.00%";
-					currentlyPlayingURL = data.permalink_url;
-				});
+		function setCurrentlyPlayingInfo(data) {
+			//document.getElementById("CurrentlyPlayingTitle").innerText = "Loading...";
+			//fetch('/player/current/info')
+			//	.then(response => response.json())
+			//	.then(data => {
+					if (data.type == "none") {
+						console.log("No song currently playing");
+					}
+					else if (data.type == "file") {
+						let song = data.song;
+						//Set up reading in audio file tags then get this all set up
+						document.getElementById("CurrentlyPlayingTitle").innerText = song.name;
+						document.getElementById("CurrentlyPlayingArtist").innerText = "";
+						document.getElementById("CurrentlyPlayingImageUrl").src = "";
+						document.getElementById('source_icon').hidden = true;
+					}
+					else if (data.type == "soundcloud") {
+						let song = data.song;
+						document.getElementById('source_icon').hidden = false;
+						document.getElementById('source_icon_image').src = "https://w.soundcloud.com/icon/assets/images/orange_white_48-94fc761.png";
+						document.getElementById("CurrentlyPlayingTitle").innerText = song.title;
+						document.getElementById("CurrentlyPlayingArtist").innerText = song.user.username;
+						document.getElementById("CurrentlyPlayingImageUrl").src = song.artwork_url.replace("large.jpg", "t500x500.jpg");
+						document.getElementById("CurrentlyPlayingProgress").innerText = "0:00";
+						currentlyPlayingTotalSeconds = Math.round(song.duration / 1000);
+						document.getElementById("CurrentlyPlayingLength").innerText = new Date(currentlyPlayingTotalSeconds * 1000).toISOString().slice(14, 19);
+						document.getElementById("ProgressBarPosition").style.width = "0.00%";
+						currentlyPlayingURL = data.permalink_url;
+					}
+					else if (data.type == "spotify") {
+						let song = data.song;
+						document.getElementById('source_icon').hidden = false;
+						document.getElementById('source_icon_image').src = "https://1000logos.net/wp-content/uploads/2017/08/Spotify-Logo.png";
+						document.getElementById("CurrentlyPlayingTitle").innerText = song.name;
+						document.getElementById("CurrentlyPlayingArtist").innerText = song.artists.map(x => x.name).join();
+						document.getElementById("CurrentlyPlayingImageUrl").src = song.album.images[0].url;
+						document.getElementById("CurrentlyPlayingProgress").innerText = "0:00";
+						currentlyPlayingTotalSeconds = Math.round(song.duration_ms / 1000);
+						document.getElementById("CurrentlyPlayingLength").innerText = new Date(currentlyPlayingTotalSeconds * 1000).toISOString().slice(14, 19);
+						document.getElementById("ProgressBarPosition").style.width = "0.00%";
+						currentlyPlayingURL = song.external_urls.spotify;
+					}
+			//	});
 		}
 		function setProgressBarPosition(pct)
 		{
@@ -80,9 +118,9 @@
 			fetch('/songs/files')
 				.then(response => response.json())
 				.then(data => {
-					document.getElementById('sc_icon').hidden = true;
+					document.getElementById('source_icon').hidden = true;
 					var songDisplayArea = document.getElementById("SongDisplayArea");
-					songDisplayArea.innHTML = '';
+					songDisplayArea.innerHTML = '';
 					var songList = document.createElement("ul");
 					songList.className = "px-0";
 					songDisplayArea.appendChild(songList);
@@ -110,14 +148,81 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data)
-					document.getElementById("CurrentlyPlayingTitle").innerText = data.file_name;
-					document.getElementById("CurrentlyPlayingArtist").innerText = "local file";
+				});
+		}
+		function populateSoundCloudLikes() {
+			fetch('/songs/soundcloud/likes')
+				.then(response => response.json())
+				.then(data => {
+					var songDisplayArea = document.getElementById("SongDisplayArea");
+					songDisplayArea.innerHTML = '';
+					var songList = document.createElement("ul");
+					songList.className = "px-0";
+					songDisplayArea.appendChild(songList);
+					/*songDisplayArea.innerHTML = `<ul class="px-0">
+  												<li class="border list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>List Item 1</li>
+												</ul>`*/
+					for (i = 0; i < data.likes.length; i++) {
+						console.log(data.likes[i].track.title)
+                        var songItem = document.createElement("li");
+						songItem.className = "border list-none rounded-sm px-2 py-2 hover:bg-blue-200";
+						songItem.style = 'border-bottom-width:0; cursor:pointer';
+						songItem.innerText = data.likes[i].track.title;
+						songItem.songJSON = data.likes[i].track;
+						songItem.addEventListener('click', function(){ playSoundCloudSong(this.songJSON); });
+						songList.appendChild(songItem);
+                    }
+				});
+		}
+		function playSoundCloudSong(song) {
+			fetch('/player/play/soundcloud', {
+				method: 'post',
+    			headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({soundcloud_song: song})
+			}).then(response => response.json())
+				.then(data => {
+					console.log(song)
+				});
+		}
+		function populateSpotifyLikes() {
+			fetch('/songs/spotify/likes')
+				.then(response => response.json())
+				.then(data => {
+					var songDisplayArea = document.getElementById("SongDisplayArea");
+					songDisplayArea.innerHTML = '';
+					var songList = document.createElement("ul");
+					songList.className = "px-0";
+					songDisplayArea.appendChild(songList);
+					/*songDisplayArea.innerHTML = `<ul class="px-0">
+  												<li class="border list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>List Item 1</li>
+												</ul>`*/
+					for (i = 0; i < data.likes.length; i++) {
+						console.log(data.likes[i].track.name)
+                        var songItem = document.createElement("li");
+						songItem.className = "border list-none rounded-sm px-2 py-2 hover:bg-blue-200";
+						songItem.style = 'border-bottom-width:0; cursor:pointer';
+						songItem.innerText = data.likes[i].track.artists.map(x => x.name).join(', ') + " - " + data.likes[i].track.name;
+						songItem.songJSON = data.likes[i].track;
+						songItem.addEventListener('click', function(){ playSpotifySong(this.songJSON); });
+						songList.appendChild(songItem);
+                    }
+				});
+		}
+		function playSpotifySong(song) {
+			console.log()
+			fetch('/player/play/spotify', {
+				method: 'post',
+    			headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({spotify_song: song})
+			}).then(response => response.json())
+				.then(data => {
+					console.log(song)
 				});
 		}
 	</script>
 </head>
 
-<body class="h-screen overflow-hidden flex items-center justify-center bg-red-lightest" onload="setCurrentlyPlayingInfo()">
+<body onload="setCurrentlyPlayingInfo()" class="h-screen overflow-hidden flex items-center justify-center bg-red-lightest">
 
 	<div class="w-full">
 
@@ -125,11 +230,14 @@
 			<div onclick="populateFiles()" class="m-8 bg-grey-dark rounded-lg cursor-pointer">
 				<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/OneDrive_Folder_Icon.svg/512px-OneDrive_Folder_Icon.svg.png" alt="Pi Music folder" width="150">
 			</div>
-			<div class="m-8 bg-grey-dark rounded-lg">
+			<div onclick="populateSoundCloudLikes()" class="m-8 bg-grey-dark rounded-lg cursor-pointer">
 				<img src="https://d21buns5ku92am.cloudfront.net/26628/images/293815-SC_Logo_Vertical_Orange_2x-222df3-large-1539945617.png" alt="Soundcloud" width="200">
 			</div>
-			<div class="m-8 bg-grey-dark rounded-lg">
+			<div onclick="populateSpotifyLikes()" class="m-8 bg-grey-dark rounded-lg cursor-pointer">
 				<img src="https://1000logos.net/wp-content/uploads/2017/08/Spotify-Logo.png" alt="Spotify" width="180">
+			</div>
+			<div onclick="spotifyAuth()" class="m-8 bg-grey-dark rounded-lg cursor-pointer">
+				<img src="https://1000logos.net/wp-content/uploads/2017/08/Spotify-Logo.png" alt="Spotify settings" width="40">
 			</div>
 		</div>
 		
@@ -143,14 +251,14 @@
 						<img id="CurrentlyPlayingImageUrl" class="w-full rounded hidden md:block"
 							src="https://tailwindcss.com/img/card-top.jpg" alt="Album Pic">
 					</div>
-					<div class="w-full p-8">
+					<div class="w-full p-4">
 						<div class="flex justify-between">
 							<div>
-								<h3 id="CurrentlyPlayingTitle" class="text-2xl text-grey-darkest font-medium">Song Title</h3>
+								<h3 id="CurrentlyPlayingTitle" class="text-xl text-grey-darkest font-medium">Song Title</h3>
 								<p id="CurrentlyPlayingArtist" class="text-sm text-grey mt-1">Artist</p>
 							</div>
-							<div id="sc_icon" onclick="openSoundcloudTrackPage()">
-								<img src="https://w.soundcloud.com/icon/assets/images/orange_white_48-94fc761.png">
+							<div id="source_icon" style="cursor: pointer;" onclick="openSongTrackPage()" hidden="true">
+								<img id="source_icon_image" src="https://w.soundcloud.com/icon/assets/images/orange_white_48-94fc761.png" alt="Source icon" width="50" height="50">
 							</div>
 						</div>
 						<div class="flex justify-between items-center mt-8">
@@ -230,6 +338,12 @@
 	  socket.on('connection_status', function(status) {
 		document.getElementById("ServerConnectionStatus").innerText = status;
 	  });
+	  socket.on('popup_message', function(message) {
+		alert(message);
+	  });
+	  socket.on('update_song_info', function(data) {
+		  setCurrentlyPlayingInfo(data);
+	  })
 	</script>
 </body>
 

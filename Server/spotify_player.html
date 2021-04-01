@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PiMusicSrv Spotify Player</title>
+  <style>
+    body {
+      background-color: #15a315;
+    }
+    </style>
+</head>
+<body>
+  <P id="token_holder">PiMusicSrv</P>
+
+  <script>
+    var player;
+
+    window.onSpotifyWebPlaybackSDKReady = async () => {
+      //console.log(document.getElementById("info_holder").auth_token);
+        const token = document.getElementById("token_holder").auth_token;
+        //console.log('token:', token);
+        player = new Spotify.Player({
+            name: 'PiMusicSrv',
+            getOAuthToken: cb => { cb(token); }
+        });
+  
+        // Error handling
+        player.addListener('initialization_error', ({ message }) => { console.error('initialization_error', message); });
+        player.addListener('authentication_error', ({ message }) => { console.error('authentication_error', message); });
+        player.addListener('account_error', ({ message }) => { console.error('account_error', message); });
+        player.addListener('playback_error', ({ message }) => { console.error('playback_error', message); });
+    
+        // Playback status updates
+        player.addListener('player_state_changed', state => { console.log(state); });
+    
+        // Ready
+        player.addListener('ready', async ({ device_id }) => {
+          console.log('Ready with Device ID', device_id);
+          var id_holder = document.createElement("p");
+          id_holder.id = "id_holder";
+          id_holder.innerText = "Spotify device ID: " + device_id;
+          id_holder.player_id = device_id;
+          document.body.appendChild(id_holder);
+          //document.getElementById("info_holder").player_id = device_id;
+          //await sendID(device_id);
+        });
+    
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+        });
+    
+        // Connect to the player!
+        player.connect();
+    };
+  </script>
+</body>
+</html>
