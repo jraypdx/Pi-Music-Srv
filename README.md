@@ -8,9 +8,13 @@ My goal with this project is to create a very snappy solution that can stream fr
 
 
 ### Current:
- - Super basic ability to play one song at a time from SoundCloud
- - Super basic ability to display files from the user's home directory Music folder
- - Play local files (buggy, player tries to keep playing after a song has finished)
+ - Display local files in home Music folder
+ - Display last few likes from Soundcloud
+ - Authenticate with Spotify
+ - Display last few likes from Spotify
+ - Play local files
+ - Play Soundcloud songs
+ - Play Spotify songs
  - Basic web app
 
 ### Planned:
@@ -18,9 +22,6 @@ My goal with this project is to create a very snappy solution that can stream fr
  - Read tags from and play .mp3, .wav, .flac
  - Display user likes and public playlists from Soundcloud
  - Display user likes and playlists from Spotify
- - Local file streaming
- - SoundCloud streaming
- - Spotify streaming
  - Queue system that can manage moving between all 3 sources
  - Dope light-weight web app that can be used to control your music from anywhere you can connect to the pi
 
