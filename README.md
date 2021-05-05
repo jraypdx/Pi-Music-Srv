@@ -2,31 +2,13 @@
 Another Raspberry Pi music server, this time using Node.js!
 
 
-There are already several options out there for streaming music to a Rasberry Pi.  I've tried a few, and the idea behind them is awesome, but they end up being slow and clunky.
+### Features:
+ - Load, queue, and play music from SoundCloud, Spotify, and your local mp3/wav/flac files to the speakers connected to your Raspberry Pi
+ - Realtime web app that syncs between devices, allowing you to change what's playing from anywhere in your house or allow multiple people to curate a playlist at once
 
-My goal with this project is to create a very snappy solution that can stream from local files, SoundCloud, and Spotify.  It should also hopefully feature the ability to queue music and set up a playlist with a combination of all three sources.
-
-
-### Current:
- - Display local files in home Music folder
- - Display last few likes from Soundcloud
- - Authenticate with Spotify
- - Display last few likes from Spotify
- - Play local files
- - Play Soundcloud songs
- - Play Spotify songs
- - Basic web app
-
-### Planned:
- - Display local files with the ability to sort by name, artist, file write time
- - Read tags from and play .mp3, .wav, .flac
- - Display user likes and public playlists from Soundcloud
- - Display user likes and playlists from Spotify
- - Queue system that can manage moving between all 3 sources
- - Dope light-weight web app that can be used to control your music from anywhere you can connect to the pi
 
 ### How to get it running on your Raspberry Pi:
- - I'll update this section with the steps to get it going over the next few weeks when it at least has basic local file and SoundCloud functionality
+ - I'll update this section with the steps to get it going over the next few weeks when I have it better suited for setting up on a new Pi (maybe a script?)
  - Note:  The cert + key added to the repo are an unsigned dummy pair used for testing, and you will need to click "advanced options" and "proceed" when first visiting the server in a browser
 
 
