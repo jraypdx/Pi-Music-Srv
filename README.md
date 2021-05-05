@@ -12,6 +12,22 @@ Another Raspberry Pi music server, this time using Node.js!
  - Note:  The cert + key added to the repo are an unsigned dummy pair used for testing, and you will need to click "advanced options" and "proceed" when first visiting the server in a browser
 
 
+### Example screenshots of the web app on desktop and mobile:
+
+#### Main player
+<img src="ExamplePics/MainPlayer.png" width="80%" height="80%">
+
+
+#### Main player side panel for music selection and queue panel
+<img src="ExamplePics/SidePanel.png" width="30%" height="30%"> . . . . . . . . . . <img src="ExamplePics/QueuePanel.png" width="50%" height="50%">
+
+
+#### Mobile player and mobile player queue
+<img src="ExamplePics/MainPlayer_Mobile.jpg" width="30%" height="30%"> . . . . . . . . . . <img src="ExamplePics/QueuePanel_Mobile.jpg" width="30%" height="30%">
+
+
+
+
 # Scripts
 A couple of the Python scripts I use:
  - pi-power-button | Adds a power button to the Raspberry Pi, as well as blinking a power LED when powering off (based on: https://github.com/Howchoo/pi-power-button )
