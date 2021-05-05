@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://unpkg.com/tailwindcss@0.3.0/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<Title>Pi MusicSRV</Title>
+	<link rel="stylesheet" href="player.css">
+	<script type="text/javascript" src="player.js"></script>
+</head>
+
+<body onload="setCurrentlyPlayingInfo()" class="h-screen overflow-hidden flex items-center justify-center bg-red-lightest">
+
+	<!-- Buttons for loading music, queue button, and settings button -->
+	<div class="sidebar">
+		<!-- https://www.w3schools.com/howto/howto_css_sidebar_icons.asp -->
+		<!-- https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp -->
+		<div style="color: white; text-align: center;">Library</div>
+		<div id="sidebarButton">
+			<img class="sidebarButton" onclick="populateFiles()" src="images/folder.png" alt="Local files" >
+		</div>
+		<div id="sidebarButton">
+			<img class="sidebarButton" onclick="sidebarButtonClick('soundcloud')" src="images/soundcloud.png" alt="Soundcloud" >
+		</div>
+		<div id="sidebarButton">
+			<img class="sidebarButton" onclick="sidebarButtonClick('spotify')" src="images/spotify.png" alt="Spotify" style="padding: 5px;" >
+		</div>
+
+		<div id="sidebarButtonMini" style="bottom: 0; right: 0; position: absolute;">
+			<img class="sidebarButtonMini" onclick="toggleQueue()" src="images/queue.png" alt="Queue" style="width: 34px; height: 34px" >
+		</div>
+		<div id="sidebarButtonMini" style="bottom: 0; left: 0; position: absolute;">
+			<img class="sidebarButtonMini" onclick="settingsButtonClick()" src="images/cog.png" alt="Settings" style="width: 34px; height: 34px" >
+		</div>
+		</div>
+
+		<div class="sidepanel" id="sidebarPanel" lastClicked="none" isOpen="false">
+			<div style="color: white; text-align: center; cursor: pointer;" onclick="hideSidepanel()">
+				<i style="border: solid white; border-width: 0 3px 3px 0; display: inline-block; padding: 5px; transform: rotate(135deg); -webkit-transform: rotate(135deg);"></i>
+				CLOSE
+			</div>
+			<div id="sidepanelTitle" style="color: white; margin-left: 8px; margin-top: 8px;">
+			</div>
+			<div id="sidepanelButtonLikes">
+				<img id="playlistImg" src="images/heart.png" >
+				<div id="playlistText">
+					Likes
+				</div>
+			</div>
+			<div id="sidepanelButtonList">
+			</div>
+	</div>
+
+	<!-- Album art and music player -->
+	<div class="bottombar">
+		<img id="CurrentlyPlayingImage" src="images/placeholder.png" alt="Album art" >
+		
+		<div style="width: 70%; margin: 0 auto;">
+			<!-- Currently playing -->
+			<div class="flex justify-between">
+				<div>
+					<h3 id="CurrentlyPlayingTitle" class="text-xl text-white font-medium">Song Title</h3>
+					<p id="CurrentlyPlayingArtist" class="text-sm text-grey mt-1">Artist</p>
+				</div>
+				<!-- SoundCloud/Spotify icon that is showen when a song is playing from them and takes you to the track's page when clicked -->
+				<div id="source_icon" style="cursor: pointer;" onclick="openSongTrackPage()" hidden="true">
+					<img id="source_icon_image" src="images/soundcloud_mini.png" alt="Source icon" width="50" height="50">
+				</div>
+			</div>
+
+			<!-- Player buttons-->
+			<div class="w-1/2" style="position: absolute; bottom: 0; padding-bottom: 60px; padding-left: 15%; width: 55%;">
+				<div class="flex justify-between items-center mt-8">
+					<div class="text-grey">
+						<svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20">
+							<path
+								d="M6.59 12.83L4.4 15c-.58.58-1.59 1-2.4 1H0v-2h2c.29 0 .8-.2 1-.41l2.17-2.18 1.42 1.42zM16 4V1l4 4-4 4V6h-2c-.29 0-.8.2-1 .41l-2.17 2.18L9.4 7.17 11.6 5c.58-.58 1.59-1 2.41-1h2zm0 10v-3l4 4-4 4v-3h-2c-.82 0-1.83-.42-2.41-1l-8.6-8.59C2.8 6.21 2.3 6 2 6H0V4h2c.82 0 1.83.42 2.41 1l8.6 8.59c.2.2.7.41.99.41h2z" />
+						</svg>
+					</div>
+					<div class="text-grey">
+						<svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20">
+							<path d="M4 5h3v10H4V5zm12 0v10l-9-5 9-5z" />
+						</svg>
+					</div>
+					<div class="text-white p-4" onclick="pause()">
+						<svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20">
+							<path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
+						</svg>
+					</div>
+					<div class="text-grey">
+						<svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20">
+							<path d="M13 5h3v10h-3V5zM4 5l9 5-9 5V5z" />
+						</svg>
+					</div>
+					<div class="text-grey">
+						<svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20">
+							<path
+								d="M5 4a2 2 0 0 0-2 2v6H0l4 4 4-4H5V6h7l2-2H5zm10 4h-3l4-4 4 4h-3v6a2 2 0 0 1-2 2H6l2-2h7V8z" />
+						</svg>
+					</div>
+				</div>
+			</div>
+
+			<!-- player nav/seek bar -->
+			<div style="position: absolute; bottom: 0; width: 70%; padding-bottom: 32px;">
+				<div class="flex justify-between text-sm text-white">
+					<p id="CurrentlyPlayingProgress">0:00</p>
+					<p id="CurrentlyPlayingLength">4:20</p>
+				</div>
+				<div class="mt-1">
+					<div id="ProgressBarFull" class="h-3 bg-grey-darkest rounded-full" style="cursor: pointer;">
+						<div id="ProgressBarPosition" class="h-3 bg-red-light rounded-full relative" style="width: 0%">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<!-- Queue popout panel -->
+	<div class="queuepanel" id="queuePanel" isOpen="false">
+		<div onclick="clearQueue()" style="background: #DDD; padding: 4px; margin: 4px; font-size: 12px; width: auto; height: 24px; position: absolute; top: 0; right: 0; cursor: pointer;">CLEAR</div>
+		<div style="color: white; text-align: center; cursor: pointer;" onclick="toggleQueue()">
+			<i style="border: solid white; border-width: 0 4px 4px 0; display: inline-block; padding: 5px; margin-bottom: 4px; margin-right: 20px; transform: rotate(45deg); -webkit-transform: rotate(45deg);"></i>
+			CLOSE QUEUE
+			<i style="border: solid white; border-width: 0 4px 4px 0; display: inline-block; padding: 5px; margin-bottom: 4px; margin-left: 20px; transform: rotate(45deg); -webkit-transform: rotate(45deg);"></i>
+		</div>
+		<div id="queueItems" style="display: flex; flex-direction: column; align-items: center; margin: 20px">
+		</div>
+	</div>
+	
+	<!-- area to display songs/song data that can be played (by clicking on the buttons on the left and loading a playlist, files, likes, etc.) -->
+	<div id="SongDisplayArea">
+		<div id="SongDisplayTitle" style="font-size: 20px; font-weight: bold; color: white;"></div>
+		<table id="SongDisplayTable" class="w3-table w3-bordered" style="color: #EEE">
+			<!-- Stuff gets added/removed to display songs in js code here -->
+		  </table>
+	</div>
+
+	<!-- The settings popup that gets toggled with the gear button -->
+	<div id="settingspanel">
+		<div class="settingsHeader1">PiMusicSrv Settings</div>
+        <div class="section">
+            <div class="settingsHeader2">Local files</div>
+            <div class="settingsText">Music folder:</div>
+            <input class="settingsInput" id="musicFolder" />
+        </div>
+
+        <div class="section">
+            <div class="settingsHeader2">SoundCloud</div>
+            <div class="settingsText">Username:</div>
+            <input class="settingsInput" id="scUsername" />
+            <div class="settingsText">client_id:</div>
+            <input class="settingsInput" id="scClientID" />
+        </div>
+        
+        <div class="section">
+            <div class="settingsHeader2">Spotify</div>
+			<span style="color: #999;">Linked account:</span>
+			<span id="linkedSpotifyAccount">None</span>
+			<br>
+            <button style="outline-style: solid; outline-width: 2px; padding: 1px; background-color: #DDD; font-size: 12px;">Unlink account</Button> <!-- store the name of the linked account and display it here? -->
+			<br><br>
+            <div class="settingsText">client_id:</div>
+            <input class="settingsInput" id="spotifyClientID" />
+            <div class="settingsText">client_secret:</div>
+            <input class="settingsInput" id="spotifyClientSecret" />
+        </div>
+
+        <button onclick="saveSettings()" style="outline-style: solid; outline-width: 1px; padding: 5px; background-color: white; font-size: 18px;">Save changes</button>
+	</div>
+
+	<!-- A little green dot that is shown when there is a connection to the server, with a red dot replacing it if the connection is broken (add text if broken too?) -->
+	<img id="ServerConnectionStatus">
+
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="player_socketio.js"></script>
+</body>
+
+</html>

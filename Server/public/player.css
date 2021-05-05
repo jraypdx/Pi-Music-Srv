@@ -1,0 +1,313 @@
+/* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f100;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
+
+.queueButton {
+    background: #40bced;
+    padding: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+}
+
+#playlistImg {
+    height: 100%;
+    text-align: left;
+    padding: 1px 2px;
+}
+
+#playlistText {
+    max-width: 75%;
+    font-size: auto;
+    word-wrap: break-word;
+    text-align: left;
+    font-size: 14px;
+    padding: 1px 2px;
+}
+
+#CurrentlyPlayingImage {
+    height: auto;
+    max-width: 20%;
+    border-radius: 5px;
+    object-fit: scale-down;
+}
+
+#SongDisplayArea {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 100px;
+    bottom: 200px;
+    overflow-y: auto;
+    background-color: #2E2E2E;
+    padding: 8px;
+}
+
+.sidepanel {
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #444;
+    overflow-x: hidden;
+    margin-left: 100px;
+    padding: 0px;
+    overflow-y: auto;
+    bottom: 200px;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #777;
+}
+
+/* Style the sidebar - fixed full height */
+.sidebar {
+    width: 100px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #222;
+    overflow-x: hidden;
+    padding-top: 16px;
+    bottom: 200px;
+}
+
+/*.siderbar a {
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #818181;
+    display: block;
+    cursor: pointer;
+}*/
+
+/* Style sidebar links */
+#sidebarButton {
+    height: 80px;
+    width: 80px;
+    padding: 5px;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#sidebarButtonMini {
+    height: 40px;
+    width: 40px;
+    padding: 2px;
+    margin: 4px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style links on mouse-over */
+.sidebar a:hover {
+color: #f1f1f1;
+}
+
+#sidepanelButton {
+    height: 60px;
+    width: 220px;
+    padding: 2px;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: right;
+    color: #818181;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+#sidepanelButtonLikes {
+    height: 60px;
+    width: 220px;
+    padding: 2px;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: right;
+    color: #818181;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+.bottombar {
+    height: 200px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #222;
+    padding: 16px;
+    display: flex;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #777;
+}
+
+.queuepanel {
+    max-height: 0px;
+    width: 65%;
+    max-width: 800px;
+    margin-left: 110px;
+    margin-bottom: 201px;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    border: solid #999;
+    border-width: 0px;
+    background-color: #393939;
+    opacity: .95;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.queueItem {
+    color: white;
+    width: 99%;
+    border-style: solid;
+    border-color: white;
+    background-color: #454545;
+    border-width: 1px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+.queueIcon {
+    height: 26px;
+    width: 26px;
+    margin: 2px 10px 2px 5px;
+}
+
+.queueXButton {
+    color: red;
+    font-size: 20px;
+    text-align: right;
+    border: solid white;
+    border-width: 1px;
+    border-radius: 4px;
+    position: absolute;
+    right: 0;
+    padding: 0px 2px 0px 2px;
+    margin-right: 1%;
+}
+
+.section {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: #DDD;
+    margin: 30px;
+    background-color: #393939;
+}
+
+.settingsInput {
+    width: 75%;
+    margin-bottom: 20px;
+    margin-top: 2px;
+}
+
+.settingsText {
+    color: #AAA;
+    font-size: 18px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+}
+
+.settingsHeader1 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.settingsHeader2 {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 2px;
+    margin-top: 10px;
+    margin-left: 20px;
+    text-align: left;
+}
+
+#linkedSpotifyAccount {
+    color: #DDD;
+}
+
+#settingspanel {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 100px;
+    bottom: 200px;
+    background-color: #333;
+    opacity: 0.96;
+    padding: 8px;
+    text-align: center;
+    overflow-y: auto;
+    visibility: hidden;
+}
+
+/* Style the main content */
+.main {
+    margin-left: 100px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+}
+
+/* Add media queries for small screens (when the height of the screen is less than 450px, add a smaller padding and font-size) */
+@media screen and (max-height: 450px) {
+.sidebar {padding-top: 15px;}
+.sidebar a {font-size: 18px;}
+}
