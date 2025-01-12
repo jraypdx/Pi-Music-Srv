@@ -8,8 +8,16 @@ Another Raspberry Pi music server, this time using Node.js!
 
 
 ### How to get it running on your Raspberry Pi:
- - I'll update this section with the steps to get it going over the next few weeks when I have it better suited for setting up on a new Pi (maybe a script?)
+ - This section is being updated as I slowly familiarize myself with the codebase again and get it working on a fresh Pi
  - Note:  The cert + key added to the repo are an unsigned dummy pair used for testing, and you will need to click "advanced options" and "proceed" when first visiting the server in a browser
+ - **SoundCloud** setup
+     1. Add your SoundCloud username (as it shows up in the URL when viewing your profile) and your SoundCloud client_id to the settings page (or manually in settings.json) and save the settings (TODO: I don't think server needs to be restarted after this but need to figure out if it updates correctly)
+     2. To find your SoundCloud account's client_id:
+         1.  Open SoundCloud in your browser while logged in
+         2.  Open developer tools
+         3.  Go to the network tab
+         4.  Refresh the page
+         5.  A lot of the last requests to be made when the page is loading (ex. Discover page or your profile page) will show up like me?client_id=xxxxxxx - click on one of those, then you will see client_id under Query String Parameters or URL parameters and you can copy the value from it
 
 
 ### Example screenshots of the web app on desktop and mobile:
