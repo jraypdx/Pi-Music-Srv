@@ -10,6 +10,8 @@ Another Raspberry Pi music server, this time using Node.js!
 ### How to get it running on your Raspberry Pi:
  - This section is being updated as I slowly familiarize myself with the codebase again and get it working on a fresh Pi
  - Note:  The cert + key added to the repo are an unsigned dummy pair used for testing, and you will need to click "advanced options" and "proceed" when first visiting the server in a browser
+ - Clone the repo, navigate to the Server folder, run "npm install" (will need to run "sudo apt install nodejs" and possibly "sudo apt install npm" before if you don't have them installed)
+ - Start the server using "export DISPLAY=:0 && node server.js" from the Server folder (**TODO: Requires a connected display for the Spotify player authentication and workaround - I need to figure out how I had a dummy display script set up in the past and add it as an option here if no display is found**)
  - **SoundCloud** setup
      1. Add your SoundCloud username (as it shows up in the URL when viewing your profile) and your SoundCloud client_id to the settings page (or manually in settings.json) and save the settings (TODO: I don't think server needs to be restarted after this but need to figure out if it updates correctly)
      2. To find your SoundCloud account's client_id:
@@ -18,6 +20,11 @@ Another Raspberry Pi music server, this time using Node.js!
          3.  Go to the network tab
          4.  Refresh the page
          5.  A lot of the last requests to be made when the page is loading (ex. Discover page or your profile page) will show up like me?client_id=xxxxxxx - click on one of those, then you will see client_id under Query String Parameters or URL parameters and you can copy the value from it
+ - **Spotify** setup **(NOTE: Requires a premium Spotify account)** - **TODO: Simplify this and figure out URL stuff**
+     1. Edit your hosts file and add "raspberry_pi_ip    bob.pi" as a line where raspberry_pi_ip is the local IP for the raspberry Pi that you're using (this is a temp workaround due to Spotify needing a "valid" (aka domain/url) redirect URL)
+     2. Visit https://developer.spotify.com/dashboard and create a new app with access to the Web API and Web Playback SDK (not positive both are needed... will edit if I figure out later) and add "https://bob.pi:3000/spotify/redirect" as a redirect URL (**TODO: https://pi_ip:3000/spotify/redirect might work here without doing the bob.pi workaround?)
+     3. Once it's created, copy and paste the client ID and client secret of your app into the server settings and save
+     4. Connect your account by visiting https://bob.pi:3000/spotify/auth (or your raspberry pi IP in place of bob.pi) from another computer with the server running on the Pi, and log in to Spotify and allow the app to access your account
 
 
 ### Example screenshots of the web app on desktop and mobile:
